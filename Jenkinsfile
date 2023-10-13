@@ -6,7 +6,7 @@ pipeline {
         DOCKERHUB_USERNAME = "Raslen"
         APP_NAME = "Gitops_CI_CD"
         IMAGE_TAGE = "${BUILD_NUMBER}"
-        IMAGE_NAME = "${DOCKERHUB_USERNAME}" + "/" +${APP_NAME}
+        IMAGE_NAME = "${DOCKERHUB_USERNAME}" + "/" +"${APP_NAME}"
         REGISTRY_CREDS = 'dockerhub'
     }
 
