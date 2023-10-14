@@ -31,30 +31,26 @@ pipeline {
         stage('Build Docker Image'){
             steps{
                 script{
-                   docker_image = docker.build "${IMAGE_NAME}:${IMAGE_TAG}" 
+                   docker_image = docker.build "${IMAGE_TAGE}" 
                 }
             }
         }
-stage('Docker Login') {
-            steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
-                        if (isUnix()) {
-                            sh "echo \$DOCKERHUB_PASSWORD | docker login --username \$DOCKERHUB_USERNAME --password-stdin"
-                        } else {
-                            bat "echo %DOCKERHUB_PASSWORD% | docker login --username %DOCKERHUB_USERNAME% --password-stdin"
-                        }
-                    }
-                }
+        stage('Docker Login') {
+    steps {
+        script {
+            withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'Raslen', passwordVariable: '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')]) {
+                sh "echo \$DOCKERHUB_PASSWORD | docker login --username \$DOCKERHUB_USERNAME --password-stdin"
             }
         }
+    }
+}
 
-        stage('Push Docker Image') {
-            steps {
-                script {
-                    docker.withRegistry('', REGISTRY_CREDS) {
-                        docker_image.push("${IMAGE_NAME}:${IMAGE_TAG}")
-                        docker_image.push("${IMAGE_NAME}:latest")
+        stage('Push Docker Image'){
+            steps{
+                script{
+                    docker.withRegistry('',REGISTRY_CREDS){
+                        docker_image.push("${BUILD_NUMBER}")
+                        docker_image.push("latest")
                     }
                 }
             }
